@@ -75,7 +75,7 @@ MitosNucleares.Project/
 Pré-requisito: [.NET SDK 10](https://dotnet.microsoft.com/download).
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/MaThPMJ/MitosNucleares.git
 cd MitosNucleares
 dotnet build
 dotnet run --project MitosNucleares.Project
