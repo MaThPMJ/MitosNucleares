@@ -6,6 +6,28 @@ namespace MitosNucleares.Project.Services
     public class UsuarioService
     {
         private readonly Dictionary<string, Usuario> _usuarios = new Dictionary<string, Usuario>();
+        private readonly IUsuarioRepositorio _repositorio;
+
+        public UsuarioService(IUsuarioRepositorio repositorio)
+        {
+            _repositorio = repositorio;
+        }
+
+        public void CarregarDados()
+        {
+            List<Usuario> usuarios = _repositorio.Carregar();
+
+            foreach (Usuario usuario in usuarios)
+            {
+                if (_usuarios.ContainsKey(usuario.Email))
+                {
+                    _usuarios.Clear();
+                    throw new PersistenciaException($"O arquivo de dados contém o e-mail {usuario.Email} repetido.");
+                }
+
+                _usuarios.Add(usuario.Email, usuario);
+            }
+        }
 
         public void Cadastrar(Usuario usuario)
         {
@@ -13,12 +35,22 @@ namespace MitosNucleares.Project.Services
                 throw new EmailJaCadastradoException($"O e-mail {usuario.Email} já está cadastrado.");
 
             _usuarios.Add(usuario.Email, usuario);
+            Salvar();
         }
 
         public Usuario Login(string email, string senha)
         {
             Usuario usuario = BuscarPorEmail(email);
-            usuario.ValidarLogin(senha);
+
+            try
+            {
+                usuario.ValidarLogin(senha);
+            }
+            finally
+            {
+                Salvar();
+            }
+
             return usuario;
         }
 
@@ -26,6 +58,7 @@ namespace MitosNucleares.Project.Services
         {
             Usuario usuario = BuscarPorEmail(email);
             usuario.AdicionarPontos(pontos);
+            Salvar();
         }
 
         public List<Usuario> ListarTodos()
@@ -61,6 +94,11 @@ namespace MitosNucleares.Project.Services
                 throw new UsuarioNaoEncontradoException($"Nenhum usuário encontrado com o e-mail {chave}.");
 
             return usuario;
+        }
+
+        private void Salvar()
+        {
+            _repositorio.Salvar(ListarTodos());
         }
     }
 }

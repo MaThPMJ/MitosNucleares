@@ -8,15 +8,36 @@ namespace MitosNucleares.Project
     {
         static void Main(string[] args)
         {
-            UsuarioService service = new UsuarioService();
+            string caminhoArquivo = Path.Combine(AppContext.BaseDirectory, "usuarios.json");
+            UsuarioRepositorioJson repositorio = new UsuarioRepositorioJson(caminhoArquivo);
+            UsuarioService service = new UsuarioService(repositorio);
             bool executando = true;
 
             Console.WriteLine("=== Mitos e Verdades Nucleares: Usuários ===");
 
+            try
+            {
+                service.CarregarDados();
+                Console.WriteLine($"{service.ListarTodos().Count} usuário(s) carregado(s) de {repositorio.CaminhoArquivo}");
+            }
+            catch (PersistenciaException ex)
+            {
+                Console.WriteLine($"[Aviso de dados]: {ex.Message}");
+                Console.WriteLine("A aplicação vai começar com a lista vazia; o arquivo será substituído no próximo salvamento.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Erro inesperado ao carregar dados]: {ex.Message}");
+            }
+
             while (executando)
             {
                 ExibirMenu();
-                string entrada = LerTexto("Escolha uma opção: ");
+                Console.Write("Escolha uma opção: ");
+                string? entrada = Console.ReadLine();
+
+                if (entrada == null)
+                    break;
 
                 if (!int.TryParse(entrada, out int opcao))
                 {
@@ -70,6 +91,10 @@ namespace MitosNucleares.Project
                 catch (UsuarioBloqueadoException ex)
                 {
                     Console.WriteLine($"[Bloqueio]: {ex.Message}");
+                }
+                catch (PersistenciaException ex)
+                {
+                    Console.WriteLine($"[Erro ao salvar]: {ex.Message}");
                 }
                 catch (Exception ex)
                 {
@@ -164,7 +189,11 @@ namespace MitosNucleares.Project
         {
             foreach (Usuario usuario in usuarios)
             {
-                string situacao = usuario.Bloqueado ? "Bloqueado" : "Ativo";
+                string situacao = "Ativo";
+
+                if (usuario.Bloqueado)
+                    situacao = "Bloqueado";
+
                 Console.WriteLine($"{usuario.Nome} | {usuario.Email} | {usuario.Pontuacao} pts | {situacao}");
             }
         }
