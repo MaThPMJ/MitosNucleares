@@ -1,0 +1,17 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build
+bin/
+obj/
+
+# Material de apoio local (não versionar)
+material/
+
+# Instruções locais do Claude Code (não versionar)
+CLAUDE.md
+
+# Dados gerados pela aplicação
+usuarios.json
