@@ -3,7 +3,12 @@
 Challenge 2026, Sprint 1 (FIAP, Análise e Desenvolvimento de Sistemas).
 Disciplina: Advanced Business Development with .NET.
 
-## Integrantes
+> ⚠️ **Requisito: .NET SDK 10.** O projeto usa `net10.0` e não compila com o .NET 8.
+> Confira com `dotnet --list-sdks` e, se necessário, baixe em https://dotnet.microsoft.com/download/dotnet/10.0
+
+## Grupo Núcleo
+
+**Integrantes:**
 
 | Nome | RM |
 |---|---|
@@ -72,7 +77,7 @@ MitosNucleares.Project/
 
 ## Como executar
 
-Pré-requisito: [.NET SDK 10](https://dotnet.microsoft.com/download).
+Pré-requisito: **.NET SDK 10** ([download](https://dotnet.microsoft.com/download/dotnet/10.0)). Com o .NET 8 o projeto não compila.
 
 ```bash
 git clone https://github.com/MaThPMJ/MitosNucleares.git
