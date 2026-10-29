@@ -61,6 +61,15 @@ namespace MitosNucleares.Project.Entities
             TentativasErradas = 0;
         }
 
+        public void Desbloquear()
+        {
+            if (!Bloqueado)
+                throw new DadosInvalidosException($"O usuário {Email} não está bloqueado.");
+
+            Bloqueado = false;
+            TentativasErradas = 0;
+        }
+
         public void AdicionarPontos(int pontos)
         {
             if (pontos <= 0)

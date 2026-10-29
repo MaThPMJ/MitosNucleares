@@ -64,6 +64,9 @@ namespace MitosNucleares.Project
                         case 5:
                             AdicionarPontos(service);
                             break;
+                        case 6:
+                            DesbloquearUsuario(service);
+                            break;
                         case 0:
                             executando = false;
                             break;
@@ -113,6 +116,7 @@ namespace MitosNucleares.Project
             Console.WriteLine("3 - Buscar usuário por nome ou e-mail");
             Console.WriteLine("4 - Login");
             Console.WriteLine("5 - Adicionar pontos a um usuário");
+            Console.WriteLine("6 - Desbloquear usuário");
             Console.WriteLine("0 - Sair");
         }
 
@@ -183,6 +187,14 @@ namespace MitosNucleares.Project
 
             service.AdicionarPontos(email, pontos);
             Console.WriteLine("Pontuação atualizada com sucesso!");
+        }
+
+        static void DesbloquearUsuario(UsuarioService service)
+        {
+            string email = LerTexto("E-mail do usuário bloqueado: ");
+
+            service.Desbloquear(email);
+            Console.WriteLine("Usuário desbloqueado! As tentativas de senha foram zeradas.");
         }
 
         static void ExibirUsuarios(List<Usuario> usuarios)

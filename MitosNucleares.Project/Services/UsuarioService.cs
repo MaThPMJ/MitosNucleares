@@ -54,6 +54,13 @@ namespace MitosNucleares.Project.Services
             return usuario;
         }
 
+        public void Desbloquear(string email)
+        {
+            Usuario usuario = BuscarPorEmail(email);
+            usuario.Desbloquear();
+            Salvar();
+        }
+
         public void AdicionarPontos(string email, int pontos)
         {
             Usuario usuario = BuscarPorEmail(email);

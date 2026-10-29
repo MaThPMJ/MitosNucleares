@@ -39,6 +39,7 @@ Uma aplicação **console** em .NET com a entidade **Usuario** (o jogador). Ela 
 - **Regras de negócio:**
   - o e-mail é único (não diferencia maiúsculas de minúsculas);
   - o login bloqueia o usuário após 3 tentativas de senha erradas, e um login correto zera as tentativas;
+  - só um usuário bloqueado pode ser desbloqueado, e o desbloqueio zera as tentativas;
   - só é possível adicionar pontos positivos à pontuação.
 - **Cadastro** de novos usuários.
 - **Consulta:** lista todos os usuários e busca por nome ou e-mail (aceita parte do texto).
@@ -94,6 +95,7 @@ Menu:
 3 - Buscar usuário por nome ou e-mail
 4 - Login
 5 - Adicionar pontos a um usuário
+6 - Desbloquear usuário
 0 - Sair
 ```
 
